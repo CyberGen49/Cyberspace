@@ -9,6 +9,14 @@ srv.set('view engine', 'ejs');
 srv.use(logger({ getIP: req => req.headers['cf-connecting-ip'] }));
 srv.use(express.static(`${__dirname}/web`, { index: false }));
 
+srv.use('/api', (req, res, next) => {
+    req.db = sqlite3('main.db');
+    res.on('finish', () => {
+        db.close();
+    });
+    next();
+});
+
 srv.get('/*', (req, res, next) => {
     res.meta = {
         title: 'Welcome to Cyberspace',
@@ -17,13 +25,8 @@ srv.get('/*', (req, res, next) => {
     next();
 });
 
-srv.use('/api', (req, res, next) => {
-    req.db = sqlite3('main.db');
-    res.on('finish', () => {
-        db.close();
-    });
-    next();
-});
+// Change meta depending on the page being accessed
+// Users, posts, communities, etc.
 
 srv.get('/*', (req, res) => {
     // <%= text %>
