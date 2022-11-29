@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS "users" (
+	"id"	TEXT NOT NULL UNIQUE,
+	"username"	TEXT NOT NULL UNIQUE
+);
+CREATE TABLE IF NOT EXISTS "auth" (
+	"user"	TEXT NOT NULL,
+	"token"	TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "posts" (
+	"id"	TEXT NOT NULL UNIQUE,
+	"creator"	TEXT NOT NULL,
+	"created_at"	INTEGER NOT NULL,
+	"content"	TEXT NOT NULL,
+	"rep_count"	INTEGER NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS "communities" (
+	"id"	TEXT NOT NULL UNIQUE,
+	"id_name"	TEXT NOT NULL UNIQUE,
+	"display_name"	TEXT NOT NULL,
+	"desc"	TEXT NOT NULL
+);
